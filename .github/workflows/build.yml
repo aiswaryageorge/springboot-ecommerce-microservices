@@ -46,6 +46,14 @@ jobs:
           cd product-service
           mvn clean install -DskipTests
 
+      - name: Build Product Service Docker Image
+        run: |
+          docker build -t aiswaryageorge01/product-service:latest ./product-service
+
+      - name: Push Product Service Docker Image
+        run: |
+          docker push aiswaryageorge01/product-service:latest
+
       - name: Build Order Service
         run: |
           cd order-service
