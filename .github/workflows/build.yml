@@ -59,22 +59,62 @@ jobs:
           cd order-service
           mvn clean install -DskipTests
 
+      - name: Build Order Service Docker Image
+        run: |
+          docker build -t aiswaryageorge01/order-service:latest ./order-service
+
+      - name: Push Order Service Docker Image
+        run: |
+          docker push aiswaryageorge01/order-service:latest
+
       - name: Build Payment Service
         run: |
           cd payment-service
           mvn clean install -DskipTests
+
+      - name: Build Payment Service Docker Image
+        run: |
+          docker build -t aiswaryageorge01/payment-service:latest ./payment-service
+
+      - name: Push Payment Service Docker Image
+        run: |
+          docker push aiswaryageorge01/payment-service:latest
 
       - name: Build API Gateway
         run: |
           cd api-gateway
           mvn clean install -DskipTests
 
+      - name: Build API Gateway Docker Image
+        run: |
+          docker build -t aiswaryageorge01/api-gateway:latest ./api-gateway
+
+      - name: Push API Gateway Docker Image
+        run: |
+          docker push aiswaryageorge01/api-gateway:latest
+
       - name: Build Eureka Server
         run: |
           cd service-registry
           mvn clean install -DskipTests
 
+      - name: Build Eureka Server Docker Image
+        run: |
+          docker build -t aiswaryageorge01/service-registry:latest ./service-registry
+
+      - name: Push Eureka Server Docker Image
+        run: |
+          docker push aiswaryageorge01/service-registry:latest
+
       - name: Build Config Server
         run: |
           cd config-server
           mvn clean install -DskipTests
+
+      - name: Build Config Server Docker Image
+        run: |
+          docker build -t aiswaryageorge01/config-server:latest ./config-server
+
+      - name: Push Config Server Docker Image
+        run: |
+          docker push aiswaryageorge01/config-server:latest
