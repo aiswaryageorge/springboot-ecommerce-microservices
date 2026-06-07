@@ -30,7 +30,7 @@ public class OrderService {
         orderProducer.sendOrderEvent(
                 "New Order Created with ID: " + savedOrder.getId()
         );
-        return orderRepository.save(order);
+        return savedOrder;
     }
 
     public List<Order> getOrders() {
