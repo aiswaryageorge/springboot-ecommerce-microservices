@@ -85,13 +85,16 @@ MySQL
 
 ## Running Services
 
-* API Gateway
-* Config Server
-* Eureka Server
-* User Service
-* Product Service
-* Order Service
-* MySQL
+- Config Server
+- Eureka Server
+- API Gateway
+- User Service
+- Product Service
+- Order Service
+- Payment Service
+- MySQL
+- Docker
+- Kubernetes
 
 ---
 
@@ -119,8 +122,7 @@ GET /orders
 
 ## Future Enhancements
 
-* Kafka Integration
-* Payment Service
+* Kafka Integration in progress
 * Redis Caching
 * Prometheus Monitoring
 * Grafana Dashboards
