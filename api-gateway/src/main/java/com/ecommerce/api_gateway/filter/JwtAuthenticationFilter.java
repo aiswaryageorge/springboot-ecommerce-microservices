@@ -39,13 +39,19 @@ public class JwtAuthenticationFilter
                         .getFirst(HttpHeaders.AUTHORIZATION);
 
         // Missing token
+
+//        if(authHeader == null ||
+//                !authHeader.startsWith("Bearer ")) {
+//
+//            exchange.getResponse()
+//                    .setStatusCode(HttpStatus.UNAUTHORIZED);
+//
+//            return exchange.getResponse().setComplete();
+//        }
         if(authHeader == null ||
                 !authHeader.startsWith("Bearer ")) {
 
-            exchange.getResponse()
-                    .setStatusCode(HttpStatus.UNAUTHORIZED);
-
-            return exchange.getResponse().setComplete();
+            return chain.filter(exchange);
         }
 
         try {
@@ -56,21 +62,29 @@ public class JwtAuthenticationFilter
             String username =
                     jwtService.extractUsername(token);
 
+//            if(username == null) {
+//
+//                exchange.getResponse()
+//                        .setStatusCode(HttpStatus.UNAUTHORIZED);
+//
+//                return exchange.getResponse().setComplete();
+//            }
             if(username == null) {
 
-                exchange.getResponse()
-                        .setStatusCode(HttpStatus.UNAUTHORIZED);
-
-                return exchange.getResponse().setComplete();
+                return chain.filter(exchange);
             }
 
-        } catch (Exception e) {
+//        } catch (Exception e) {
+//
+//            exchange.getResponse()
+//                    .setStatusCode(HttpStatus.UNAUTHORIZED);
+//
+//            return exchange.getResponse().setComplete();
+//        }
+           } catch (Exception e) {
 
-            exchange.getResponse()
-                    .setStatusCode(HttpStatus.UNAUTHORIZED);
-
-            return exchange.getResponse().setComplete();
-        }
+                return chain.filter(exchange);
+            }
 
         return chain.filter(exchange);
     }
