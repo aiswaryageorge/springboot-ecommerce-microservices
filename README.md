@@ -2,135 +2,378 @@
 
 ## Overview
 
-A Spring Boot microservices-based ecommerce backend built using Java, Spring Cloud, Docker, and Kubernetes.
+A production-style Ecommerce Backend built using Spring Boot Microservices, Spring Cloud, Docker, Kubernetes, Kafka, Redis, Zipkin, Prometheus, and Grafana.
 
-The application demonstrates service discovery, centralized configuration, API Gateway routing, containerization, and Kubernetes deployment.
+This project demonstrates modern cloud-native architecture patterns including:
 
----
-
-## Architecture
-
-Client
-
-↓
-
-API Gateway
-
-↓
-
-User Service | Product Service | Order Service
-
-↓
-
-MySQL
+- Service Discovery
+- Centralized Configuration
+- API Gateway Routing
+- JWT Authentication
+- Distributed Caching
+- Event-Driven Communication
+- Distributed Tracing
+- Metrics & Monitoring
+- Containerization
+- Kubernetes Orchestration
 
 ---
 
-## Services
+# Architecture
 
-### API Gateway
+```text
+                                Client
+                                   |
+                                   v
+                            API Gateway
+                                   |
+        --------------------------------------------------
+        |               |               |               |
+        v               v               v               v
 
-* Central entry point
-* Request routing
-* Service discovery integration
+   Auth Service     User Service   Product Service   Order Service
+                                            |              |
+                                            |              v
+                                            |       Payment Service
+                                            |
+                                            v
+                                          Redis
 
-### Config Server
+        --------------------------------------------------
+                     Infrastructure Layer
+        --------------------------------------------------
 
-* Centralized configuration management
+              Eureka Server (Service Discovery)
 
-### Eureka Server
+              Config Server (Centralized Config)
 
-* Service registration and discovery
+                     MySQL Database
 
-### User Service
+                    Kafka + Zookeeper
 
-* Create users
-* Retrieve users
+                         Zipkin
 
-### Product Service
+                      Prometheus
 
-* Create products
-* Retrieve products
-
-### Order Service
-
-* Create orders
-* Retrieve orders
-
----
-
-## Technology Stack
-
-* Java 21
-* Spring Boot 3
-* Spring Cloud
-* Eureka Service Discovery
-* Spring Cloud Config
-* Spring Cloud Gateway
-* MySQL
-* Docker
-* Kubernetes
-* Maven
+                        Grafana
+```
 
 ---
 
-## Kubernetes Components
+# Features
 
-* Deployments
-* Services
-* Service Discovery
-* Internal Cluster Networking
+## Authentication
+
+- JWT Access Token generation
+- Refresh Token support
+- User registration and login
+- Authentication through API Gateway
+
+## Service Discovery
+
+- Eureka Server
+- Automatic service registration
+- Dynamic service lookup
+
+## Configuration Management
+
+- Spring Cloud Config Server
+- Centralized application configuration
+
+## API Gateway
+
+- Single entry point
+- Request routing
+- Security integration
+
+## Redis Caching
+
+- Product caching using Spring Cache
+- Reduced database hits
+- Faster product retrieval
+
+## Kafka Messaging
+
+- Asynchronous communication
+- Order event publishing
+- Payment event consumption
+
+## Distributed Tracing
+
+- Zipkin integration
+- Request tracing across microservices
+
+## Monitoring
+
+- Prometheus metrics collection
+- Grafana dashboards
+- JVM monitoring
+- HTTP request monitoring
 
 ---
 
-## Running Services
+# Microservices
 
+## Auth Service
+
+- Register user
+- Login user
+- Generate JWT Access Token
+- Generate Refresh Token
+
+## User Service
+
+- Create users
+- Retrieve users
+
+## Product Service
+
+- Create products
+- Retrieve products
+- Redis caching
+
+## Order Service
+
+- Create orders
+- Publish Kafka events
+
+## Payment Service
+
+- Consume Kafka events
+- Process payment events
+
+---
+
+# Technology Stack
+
+## Backend
+
+- Java 21
+- Spring Boot 3
+- Spring Cloud
+
+## Security
+
+- Spring Security
+- JWT Authentication
+
+## Database
+
+- MySQL
+
+## Messaging
+
+- Apache Kafka
+- Apache Zookeeper
+
+## Caching
+
+- Redis
+
+## Observability
+
+- Zipkin
+- Prometheus
+- Grafana
+
+## DevOps
+
+- Docker
+- Kubernetes
+- Maven
+
+---
+
+# Kubernetes Deployment
+
+The platform is deployed on Kubernetes using:
+
+- Deployments
+- Services
+- Internal DNS
+- Cluster Networking
+- Service Discovery
+
+### Deployed Components
+
+- API Gateway
 - Config Server
 - Eureka Server
-- API Gateway
+- Auth Service
 - User Service
 - Product Service
 - Order Service
 - Payment Service
 - MySQL
-- Docker
-- Kubernetes
+- Kafka
+- Zookeeper
+- Redis
+- Zipkin
+- Prometheus
+- Grafana
 
 ---
 
-## Verification
+# API Examples
 
-### Products
+## Register User
 
+```http
+POST /auth/register
+```
+
+### Request
+
+```json
+{
+  "username": "admin",
+  "password": "admin123",
+  "role": "ADMIN"
+}
+```
+
+---
+
+## Login
+
+```http
+POST /auth/login
+```
+
+### Request
+
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
+```
+
+---
+
+## Create Product
+
+```http
 POST /products
+```
 
-GET /products
+### Request
 
-### Users
+```json
+{
+  "id": 1,
+  "name": "Laptop",
+  "price": 50000
+}
+```
 
-POST /users
+---
 
-GET /users
+## Get Product
 
-### Orders
+```http
+GET /products/1
+```
 
+---
+
+## Create Order
+
+```http
 POST /orders
-
-GET /orders
-
----
-
-## Future Enhancements
-
-* Kafka Integration in progress
-* Redis Caching
-* Prometheus Monitoring
-* Grafana Dashboards
-* ELK Stack
-* AWS EKS Deployment
+```
 
 ---
 
-## Author
+# Monitoring Dashboard
 
-Aiswarya George
+The application is monitored using Grafana dashboards powered by Prometheus metrics.
+
+Metrics include:
+
+- JVM Heap Usage
+- JVM Non-Heap Usage
+- CPU Usage
+- Live JVM Threads
+- Application Uptime
+- HTTP Request Rate
+
+---
+
+# Screenshots
+
+## Kubernetes Pods
+
+![Kubernetes Pods](screenshots/k8s-pods.png)
+
+## Eureka Dashboard
+
+![Eureka Dashboard](screenshots/eureka-dashboard.png)
+
+## Prometheus Targets
+
+![Prometheus Targets](screenshots/prometheus-targets.png)
+
+## Grafana Dashboard
+
+![Grafana Dashboard](screenshots/grafana-dashboard.png)
+
+## Zipkin Tracing
+
+![Zipkin Tracing](screenshots/zipkin-tracing.png)
+
+## Redis Cache
+
+![Redis Cache](screenshots/redis-cache.png)
+
+## JWT Authentication
+
+![JWT Authentication](screenshots/jwt-login.png)
+
+---
+
+# Project Highlights
+
+✅ Spring Boot Microservices
+
+✅ API Gateway
+
+✅ Eureka Service Discovery
+
+✅ Config Server
+
+✅ JWT Authentication
+
+✅ Redis Caching
+
+✅ Kafka Event Streaming
+
+✅ Zipkin Distributed Tracing
+
+✅ Prometheus Monitoring
+
+✅ Grafana Dashboards
+
+✅ Docker Containerization
+
+✅ Kubernetes Deployment
+
+---
+
+# Future Enhancements
+
+- AWS EKS Deployment
+- AWS RDS MySQL
+- AWS ElastiCache Redis
+- AWS MSK Kafka
+- CI/CD using GitHub Actions
+- Helm Charts
+- Terraform Infrastructure
+
+---
+
+# Author
+
+**Aiswarya George**
+
+Cloud & DevOps Engineer | Java Full Stack Developer
